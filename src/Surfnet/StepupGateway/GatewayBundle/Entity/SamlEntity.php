@@ -20,7 +20,6 @@ namespace Surfnet\StepupGateway\GatewayBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use GuzzleHttp;
-use Surfnet\SamlBundle\Entity\IdentityProvider;
 use Surfnet\StepupGateway\GatewayBundle\Exception\RuntimeException;
 
 /**
@@ -84,6 +83,7 @@ class SamlEntity
         // index based will be supported later on
         $configuration['entityId']             = $this->entityId;
         $configuration['configuredLoas']       = $decodedConfiguration['loa'];
+        $configuration['usePdp']               = $decodedConfiguration['use_pdp'];
 
         return new IdentityProvider($configuration);
     }
@@ -108,6 +108,7 @@ class SamlEntity
         $configuration['certificateData']      = $decodedConfiguration['public_key'];
         $configuration['entityId']             = $this->entityId;
         $configuration['configuredLoas']       = $decodedConfiguration['loa'];
+        $configuration['usePdp']               = $decodedConfiguration['use_pdp'];
 
         $configuration['secondFactorOnly'] = false;
         if (isset($decodedConfiguration['second_factor_only'])) {
@@ -129,6 +130,14 @@ class SamlEntity
      */
     private function decodeConfiguration()
     {
-        return GuzzleHttp\json_decode($this->configuration, true);
+        $configuration = GuzzleHttp\json_decode($this->configuration, true);
+
+        if (isset($configuration['use_pdp'])) {
+            $configuration['use_pdp'] = $configuration['use_pdp'];
+        } else {
+            $configuration['use_pdp'] = false;
+        }
+
+        return $configuration;
     }
 }

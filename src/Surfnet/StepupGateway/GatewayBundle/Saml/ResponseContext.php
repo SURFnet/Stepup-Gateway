@@ -22,16 +22,17 @@ use DateTime;
 use DateTimeZone;
 use DOMDocument;
 use SAML2_Assertion;
-use Surfnet\SamlBundle\Entity\IdentityProvider;
-use Surfnet\SamlBundle\Entity\ServiceProvider;
+use Surfnet\SamlBundle\Entity\IdentityProvider as SamlIdentityProvider;
 use Surfnet\StepupGateway\GatewayBundle\Entity\SecondFactor;
+use Surfnet\StepupGateway\GatewayBundle\Entity\IdentityProvider;
+use Surfnet\StepupGateway\GatewayBundle\Entity\ServiceProvider;
 use Surfnet\StepupGateway\GatewayBundle\Saml\Proxy\ProxyStateHandler;
 use Surfnet\StepupGateway\GatewayBundle\Service\SamlEntityService;
 
 class ResponseContext
 {
     /**
-     * @var IdentityProvider
+     * @var SamlIdentityProvider
      */
     private $hostedIdentityProvider;
 
@@ -61,7 +62,7 @@ class ResponseContext
     private $targetServiceProvider;
 
     public function __construct(
-        IdentityProvider $identityProvider,
+        SamlIdentityProvider $identityProvider,
         SamlEntityService $samlEntityService,
         ProxyStateHandler $stateHandler
     ) {
@@ -126,7 +127,7 @@ class ResponseContext
     }
 
     /**
-     * @return IdentityProvider
+     * @return SamlIdentityProvider
      */
     public function getIdentityProvider()
     {
@@ -170,6 +171,11 @@ class ResponseContext
         $authenticatingAuthorities = $assertion->getAuthenticatingAuthority();
         if (!empty($authenticatingAuthorities)) {
             $this->stateHandler->setAuthenticatingIdp(reset($authenticatingAuthorities));
+        } else {
+            // In SURFconext, the gateway is always used as a proxy so an AuthenticationAuthority element
+            // is always present. But since the element is optional in the SAML specification, we fall back
+            // to the issuer. This is helpful for development.
+            $this->stateHandler->setAuthenticatingIdp($assertion->getIssuer());
         }
 
         $this->stateHandler->saveAssertion($assertion->toXML()->ownerDocument->saveXML());
@@ -198,9 +204,17 @@ class ResponseContext
     /**
      * @return null|IdentityProvider
      */
+    public function getAuthenticatingIdpEntityId()
+    {
+        return $this->stateHandler->getAuthenticatingIdp();
+    }
+
+    /**
+     * @return null|IdentityProvider
+     */
     public function getAuthenticatingIdp()
     {
-        $entityId = $this->stateHandler->getAuthenticatingIdp();
+        $entityId = $this->getAuthenticatingIdpEntityId();
 
         if (!$entityId) {
             return null;

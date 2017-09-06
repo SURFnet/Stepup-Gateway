@@ -48,6 +48,27 @@ final class Configuration implements ConfigurationInterface
                     ->info('The lao level of the Gssf')
                 ->end()
             ->end();
+        $children
+            ->arrayNode('pdp')
+            ->isRequired()
+            ->children()
+            ->scalarNode('url')
+                ->isRequired()
+                ->info('The full URL to the PDP endpoint')
+                ->end()
+            ->scalarNode('username')
+                ->isRequired()
+                ->info('The username for authentication on PDP')
+                ->end()
+            ->scalarNode('password')
+                ->isRequired()
+                ->info('The password for authentication on PDP')
+                ->end()
+            ->scalarNode('client_id')
+                ->isRequired()
+                ->info('The StepUp client ID for PDP')
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

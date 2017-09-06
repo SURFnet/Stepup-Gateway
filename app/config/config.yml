@@ -169,6 +169,13 @@ surfnet_stepup_gateway_gateway:
     enabled_second_factors: %enabled_second_factors%
     enabled_generic_second_factors: %enabled_generic_second_factors%
 
+    # Policy Decision Point
+    pdp:
+        url: %pdp_url%
+        username: %pdp_username%
+        password: %pdp_password%
+        client_id: %pdp_client_id%
+
 surfnet_stepup_gateway_second_factor_only:
     loa_aliases:
         - loa: %gateway_loa_loa2%

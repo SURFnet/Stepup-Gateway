@@ -40,7 +40,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class SecondFactorController extends Controller
 {
-    public function selectSecondFactorForVerificationAction()
+    public function selectSecondFactorForVerificationAction(Request $request)
     {
         $context = $this->getResponseContext();
         $originalRequestId = $context->getInResponseTo();
@@ -65,6 +65,18 @@ class SecondFactorController extends Controller
             return $this->forward('SurfnetStepupGatewayGatewayBundle:Gateway:sendLoaCannotBeGiven');
         } else {
             $logger->notice(sprintf('Determined that the required Loa is "%s"', $requiredLoa));
+        }
+
+        if ($this->getPdpService()->isEnabledForSpOrIdp($context)) {
+            $logger->notice('Policy decision point (PDP) is enabled for SP or IdP');
+            $requiredLoa = $this->getPdpService()->enforceObligatoryLoa(
+                $requiredLoa,
+                $context->getIdentityNameId(),
+                $context->getAuthenticatingIdpEntityId(),
+                $context->getServiceProvider()->getEntityId(),
+                $context->reconstituteAssertion()->getAttributes(),
+                $request->getClientIp()
+            );
         }
 
         if ($this->getStepupService()->isIntrinsicLoa($requiredLoa)) {
@@ -489,6 +501,14 @@ class SecondFactorController extends Controller
     private function getStepupService()
     {
         return $this->get('gateway.service.stepup_authentication');
+    }
+
+    /**
+     * @return \Surfnet\StepupGateway\GatewayBundle\Service\PdpService
+     */
+    private function getPdpService()
+    {
+        return $this->get('gateway.service.pdp');
     }
 
     /**

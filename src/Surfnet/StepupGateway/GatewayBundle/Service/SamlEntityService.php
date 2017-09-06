@@ -18,9 +18,9 @@
 
 namespace Surfnet\StepupGateway\GatewayBundle\Service;
 
-use Surfnet\SamlBundle\Entity\IdentityProvider;
 use Surfnet\SamlBundle\Entity\ServiceProviderRepository;
 use Surfnet\StepupGateway\GatewayBundle\Entity\SamlEntityRepository;
+use Surfnet\StepupGateway\GatewayBundle\Entity\IdentityProvider;
 use Surfnet\StepupGateway\GatewayBundle\Entity\ServiceProvider;
 use Surfnet\StepupGateway\GatewayBundle\Exception\RuntimeException;
 

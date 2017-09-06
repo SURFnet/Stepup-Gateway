@@ -139,3 +139,9 @@ parameters:
             loa: 3
         tiqr:
             loa: 3
+
+    # Policy Decision Point
+    pdp_url:
+    pdp_username:
+    pdp_password:
+    pdp_client_id: Stepup

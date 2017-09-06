@@ -65,4 +65,12 @@ class ServiceProvider extends BaseServiceProvider
         }
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function pdpEnabled()
+    {
+        return (bool) $this->get('usePdp');
+    }
 }

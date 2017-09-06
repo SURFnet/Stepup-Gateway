@@ -151,3 +151,26 @@ services:
             - @logger
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    # Policy Decision Point
+    gateway.service.pdp:
+        class: Surfnet\StepupGateway\GatewayBundle\Service\PdpService
+        arguments:
+            - @gateway.pdp.api_client
+            - @surfnet_stepup.service.loa_resolution
+            - @logger
+            - "%pdp.client_id%"
+
+    gateway.pdp.api_client:
+        class: Surfnet\StepupGateway\GatewayBundle\Pdp\PdpClient
+        arguments:
+            - @gateway.pdp.http_client
+            - "%pdp.url%"
+
+    gateway.pdp.http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            - auth: ["%pdp.username%", "%pdp.password%", "Basic"]
+              # Verify CAs for certificates for prod, but not for other environments
+              # as we are working with self signed signatures
+              verify: "@=service('kernel').getEnvironment() === 'prod'"

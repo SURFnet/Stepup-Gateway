@@ -44,5 +44,10 @@ class SurfnetStepupGatewayGatewayExtension extends Extension
         $container
             ->getDefinition('gateway.repository.second_factor.enabled')
             ->replaceArgument(1, array_merge($config['enabled_second_factors'], $gssfSecondFactors));
+
+        $container->setParameter('pdp.url', $config['pdp']['url']);
+        $container->setParameter('pdp.username', $config['pdp']['username']);
+        $container->setParameter('pdp.password', $config['pdp']['password']);
+        $container->setParameter('pdp.client_id', $config['pdp']['client_id']);
     }
 }

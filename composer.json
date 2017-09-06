@@ -37,7 +37,9 @@
         "mopa/composer-bridge": "dev-master as v1.5.0",
         "surfnet/stepup-bundle": "^2.0",
         "surfnet/messagebird-api-client-bundle": "^3.0",
-        "surfnet/yubikey-api-client-bundle": "^3.0"
+        "surfnet/yubikey-api-client-bundle": "^3.0",
+        "webmozart/assert": "^1.2",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
