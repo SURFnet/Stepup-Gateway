@@ -31,22 +31,17 @@ use Surfnet\StepupGateway\GatewayBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupGateway\GatewayBundle\Exception\LoaCannotBeGivenException;
 use Surfnet\StepupGateway\GatewayBundle\Exception\RuntimeException;
 use Surfnet\StepupGateway\GatewayBundle\Form\Type\CancelAuthenticationType;
-use Surfnet\StepupGateway\GatewayBundle\Form\Type\CancelSecondFactorVerificationType;
 use Surfnet\StepupGateway\GatewayBundle\Form\Type\ChooseSecondFactorType;
 use Surfnet\StepupGateway\GatewayBundle\Form\Type\SendSmsChallengeType;
 use Surfnet\StepupGateway\GatewayBundle\Form\Type\VerifySmsChallengeType;
 use Surfnet\StepupGateway\GatewayBundle\Form\Type\VerifyYubikeyOtpType;
 use Surfnet\StepupGateway\GatewayBundle\Saml\ResponseContext;
-use Surfnet\StepupGateway\U2fVerificationBundle\Value\KeyHandle;
-use Surfnet\StepupU2fBundle\Dto\SignResponse;
-use Surfnet\StepupU2fBundle\Form\Type\VerifyDeviceAuthenticationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -223,8 +218,10 @@ class SecondFactorController extends Controller
 
             // Forward to action to verify possession of second factor
             return $this->selectAndRedirectTo($secondFactor, $context);
-        } else if ($form->isSubmitted() && !$form->isValid()) {
-            $form->addError(new FormError('gateway.form.gateway_choose_second_factor.unknown_second_factor_type'));
+        } else {
+            if ($form->isSubmitted() && !$form->isValid()) {
+                $form->addError(new FormError('gateway.form.gateway_choose_second_factor.unknown_second_factor_type'));
+            }
         }
 
         return [
@@ -393,7 +390,11 @@ class SecondFactorController extends Controller
         if (!$form->isValid()) {
             return array_merge(
                 $viewVariables,
-                ['phoneNumber' => $phoneNumber, 'form' => $form->createView(), 'cancelForm' => $cancelForm->createView()]
+                [
+                    'phoneNumber' => $phoneNumber,
+                    'form' => $form->createView(),
+                    'cancelForm' => $cancelForm->createView()
+                ]
             );
         }
 
@@ -404,7 +405,11 @@ class SecondFactorController extends Controller
 
             return array_merge(
                 $viewVariables,
-                ['phoneNumber' => $phoneNumber, 'form' => $form->createView(), 'cancelForm' => $cancelForm->createView()]
+                [
+                    'phoneNumber' => $phoneNumber,
+                    'form' => $form->createView(),
+                    'cancelForm' => $cancelForm->createView()
+                ]
             );
         }
 
@@ -464,127 +469,6 @@ class SecondFactorController extends Controller
         }
 
         return ['form' => $form->createView(), 'cancelForm' => $cancelForm->createView()];
-    }
-
-    /**
-     * @Template
-     */
-    public function initiateU2fAuthenticationAction()
-    {
-        $context = $this->getResponseContext();
-        $originalRequestId = $context->getInResponseTo();
-
-        /** @var \Surfnet\SamlBundle\Monolog\SamlAuthenticationLogger $logger */
-        $logger = $this->get('surfnet_saml.logger')->forAuthentication($originalRequestId);
-
-        $selectedSecondFactor = $this->getSelectedSecondFactor($context, $logger);
-        $stepupService = $this->getStepupService();
-
-        $cancelFormAction = $this->generateUrl('gateway_verify_second_factor_u2f_cancel_authentication');
-        $cancelForm =
-            $this->createForm(CancelSecondFactorVerificationType::class, null, ['action' => $cancelFormAction]);
-
-        $logger->notice('Verifying possession of U2F second factor, looking for registration matching key handle');
-
-        $service = $this->get('surfnet_stepup_u2f_verification.service.u2f_verification');
-        $keyHandle = new KeyHandle($stepupService->getSecondFactorIdentifier($selectedSecondFactor));
-        $registration = $service->findRegistrationByKeyHandle($keyHandle);
-
-        if ($registration === null) {
-            $logger->critical(
-                sprintf('No known registration for key handle of second factor "%s"', $selectedSecondFactor)
-            );
-            $this->addFlash('error', 'gateway.u2f.alert.unknown_registration');
-
-            return ['authenticationFailed' => true, 'cancelForm' => $cancelForm->createView()];
-        }
-
-        $logger->notice('Creating sign request');
-
-        $signRequest = $service->createSignRequest($registration);
-        $signResponse = new SignResponse();
-
-        /** @var AttributeBagInterface $session */
-        $session = $this->get('gateway.session.u2f');
-        $session->set('request', $signRequest);
-
-        $formAction = $this->generateUrl('gateway_verify_second_factor_u2f_verify_authentication');
-        $form = $this->createForm(
-            VerifyDeviceAuthenticationType::class,
-            $signResponse,
-            ['sign_request' => $signRequest, 'action' => $formAction]
-        );
-
-        return ['form' => $form->createView(), 'cancelForm' => $cancelForm->createView()];
-    }
-
-    /**
-     * @Template("SurfnetStepupGatewayGatewayBundle:SecondFactor:initiateU2fAuthentication.html.twig")
-     *
-     * @param Request $request
-     * @return array|Response
-     */
-    public function verifyU2fAuthenticationAction(Request $request)
-    {
-        $context = $this->getResponseContext();
-        $originalRequestId = $context->getInResponseTo();
-
-        /** @var \Surfnet\SamlBundle\Monolog\SamlAuthenticationLogger $logger */
-        $logger = $this->get('surfnet_saml.logger')->forAuthentication($originalRequestId);
-
-        $selectedSecondFactor = $this->getSelectedSecondFactor($context, $logger);
-
-        $logger->notice('Received sign response from device');
-
-        /** @var AttributeBagInterface $session */
-        $session = $this->get('gateway.session.u2f');
-        $signRequest = $session->get('request');
-        $signResponse = new SignResponse();
-
-        $formAction = $this->generateUrl('gateway_verify_second_factor_u2f_verify_authentication');
-        $form = $this
-            ->createForm(
-                VerifyDeviceAuthenticationType::class,
-                $signResponse,
-                ['sign_request' => $signRequest, 'action' => $formAction]
-            )
-            ->handleRequest($request);
-
-        $cancelFormAction = $this->generateUrl('gateway_verify_second_factor_u2f_cancel_authentication');
-        $cancelForm =
-            $this->createForm(CancelSecondFactorVerificationType::class, null, ['action' => $cancelFormAction]);
-
-        if (!$form->isValid()) {
-            $logger->error('U2F authentication verification could not be started because device send illegal data');
-            $this->addFlash('error', 'gateway.u2f.alert.error');
-
-            return ['authenticationFailed' => true, 'cancelForm' => $cancelForm->createView()];
-        }
-
-        $service = $this->get('surfnet_stepup_u2f_verification.service.u2f_verification');
-        $result = $service->verifyAuthentication($signRequest, $signResponse);
-
-        if ($result->wasSuccessful()) {
-            $context->markSecondFactorVerified();
-            $this->getAuthenticationLogger()->logSecondFactorAuthentication($originalRequestId);
-
-            $logger->info(
-                sprintf(
-                    'Marked U2F second factor "%s" as verified, forwarding to Saml Proxy to respond',
-                    $selectedSecondFactor
-                )
-            );
-
-            return $this->forward($context->getResponseAction());
-        } elseif ($result->didDeviceReportError()) {
-            $logger->error('U2F device reported error during authentication');
-            $this->addFlash('error', 'gateway.u2f.alert.device_reported_an_error');
-        } else {
-            $logger->error('U2F authentication verification failed');
-            $this->addFlash('error', 'gateway.u2f.alert.error');
-        }
-
-        return ['authenticationFailed' => true, 'cancelForm' => $cancelForm->createView()];
     }
 
     public function cancelAuthenticationAction()

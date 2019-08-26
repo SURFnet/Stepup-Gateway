@@ -88,7 +88,7 @@ final class SecondFactorType extends Twig_Extension
             $logo = $viewConfig->getLogo();
         } catch (InvalidArgumentException $e) {
             // There is no view config for this second factor type, indicating we are dealing with a hard coded second
-            // factor provider (like sms, u2f or yubikey)
+            // factor provider (like sms or yubikey)
             $logo = sprintf($this->logoFormat, $secondFactorType);
         }
 

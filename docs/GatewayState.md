@@ -76,7 +76,7 @@ activate SP
         activate SF
             rnote over SF
                 Verification is handled inside the
-                gateway (yubikey, sms, u2f) or an
+                gateway (yubikey, sms) or an
                 "inner" SAML authentication request
                 is started to an external GSSP
                 application (tiqr, irma, ...).
@@ -181,7 +181,7 @@ activate SP
 
             rnote over SF
             Verification is handled inside the
-            gateway (yubikey, sms, u2f) or an
+            gateway (yubikey, sms) or an
             "inner" SAML authentication request
             is started to an external GSSP
             application (tiqr, irma, ...).

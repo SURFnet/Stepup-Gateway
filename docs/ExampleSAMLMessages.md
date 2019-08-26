@@ -1,6 +1,6 @@
 ## Example SAML Messages
 
-The example messages of a SAML 2.0 "SP initiated" "WEB-SSO" authentication. The messages are ordered following the SAML flow. The flow assumes that on of  the second factors authentication methods that are build into the Stepup-Gateway is used (i.e. U2F, SMS or Yubikey). It does not include the SAML exchange of GSSP second factor authentication.
+The example messages of a SAML 2.0 "SP initiated" "WEB-SSO" authentication. The messages are ordered following the SAML flow. The flow assumes that on of  the second factors authentication methods that are build into the Stepup-Gateway is used (i.e. SMS or Yubikey). It does not include the SAML exchange of GSSP second factor authentication.
 
 This is a normal authentication (i.e. not SFO).
 

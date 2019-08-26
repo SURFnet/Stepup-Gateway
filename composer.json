@@ -39,7 +39,6 @@
         "surfnet/messagebird-api-client-bundle": "^4.0",
         "surfnet/stepup-bundle": "^4.0",
         "surfnet/stepup-saml-bundle": "^4.1",
-        "surfnet/stepup-u2f-bundle": "dev-develop",
         "surfnet/yubikey-api-client-bundle": "^3.0",
         "openconext/monitor-bundle": "^1.0",
         "beberlei/assert": "^2.0",

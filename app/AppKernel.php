@@ -43,8 +43,6 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Surfnet\StepupGateway\SamlStepupProviderBundle\SurfnetStepupGatewaySamlStepupProviderBundle(),
             new Surfnet\StepupGateway\SecondFactorOnlyBundle\SurfnetStepupGatewaySecondFactorOnlyBundle(),
-            new Surfnet\StepupGateway\U2fVerificationBundle\SurfnetStepupGatewayU2fVerificationBundle(),
-            new Surfnet\StepupU2fBundle\SurfnetStepupU2fBundle(),
             new OpenConext\MonitorBundle\OpenConextMonitorBundle(),
         );
 
@@ -58,6 +56,6 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 }
