@@ -1,4 +1,0 @@
-u2f_app_id:
-    path:      /app-id
-    defaults:  { _controller: SurfnetStepupGatewayU2fVerificationBundle:U2f:appId }
-    methods:   [GET]

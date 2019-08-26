@@ -31,13 +31,6 @@ parameters:
     database_gateway_name:     gateway
     database_gateway_user:     gateway
     database_gateway_password: gateway
-    # Credentials for the u2f database
-    database_u2f_name:         u2f
-    database_u2f_user:         u2f
-    database_u2f_password:     u2f
-    # Credentials used when running database migrations
-    database_deploy_user:      deploy
-    database_deploy_password:  deploy
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -129,17 +122,12 @@ parameters:
     # Boolean: Whether to enable (true) or disable (false) the SFO endpoint
     second_factor_only: false
 
-    # U2F AppID (Application ID). Must be an url
-    # Required for U2F
-    u2f_app_id: https://gateway.tld/u2f/app-id
-
     # The second factor types to enable
-    # Available second factor types: sms, yubikey, tiqr, u2f, biometric
+    # Available second factor types: sms, yubikey, tiqr, biometric
     enabled_second_factors:
         - sms
         - yubikey
         - tiqr
-        - u2f
     enabled_generic_second_factors:
         biometric:
             loa: 3

@@ -17,7 +17,3 @@ _main:
 _errors:
     resource: "@TwigBundle/Resources/config/routing/errors.xml"
     prefix:   /_error
-
-_u2f:
-    resource: "@SurfnetStepupGatewayU2fVerificationBundle/Resources/config/routing_dev.yml"
-    prefix:   /u2f

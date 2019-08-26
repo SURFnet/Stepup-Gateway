@@ -9,33 +9,3 @@ yubikey_verify:
     defaults:  { _controller: SurfnetStepupGatewayApiBundle:Yubikey:verify }
     methods:   [POST]
     condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"
-
-u2f_create_register_request:
-    path:      /u2f/create-register-request
-    defaults:  { _controller: SurfnetStepupGatewayApiBundle:U2fVerification:createRegisterRequest }
-    methods:   [POST]
-    condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"
-
-u2f_register:
-    path:      /u2f/register
-    defaults:  { _controller: SurfnetStepupGatewayApiBundle:U2fVerification:register }
-    methods:   [POST]
-    condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"
-
-u2f_create_sign_request:
-    path:      /u2f/create-sign-request
-    defaults:  { _controller: SurfnetStepupGatewayApiBundle:U2fVerification:createSignRequest }
-    methods:   [POST]
-    condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"
-
-u2f_verify_authentication:
-    path:      /u2f/verify-authentication
-    defaults:  { _controller: SurfnetStepupGatewayApiBundle:U2fVerification:verifyAuthentication }
-    methods:   [POST]
-    condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"
-
-u2f_revoke_registration:
-    path:      /u2f/revoke-registration
-    defaults:  { _controller: SurfnetStepupGatewayApiBundle:U2fVerification:revokeRegistration }
-    methods:   [POST]
-    condition: "request.headers.get('Content-Type') == 'application/json' && request.headers.get('Accept') matches '/^application\\\\/json($|[;,])/'"

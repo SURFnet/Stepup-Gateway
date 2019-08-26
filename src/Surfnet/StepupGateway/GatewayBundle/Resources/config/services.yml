@@ -116,20 +116,6 @@ services:
             - "%locales%"
             - "%support_url%"
 
-    gateway.session.u2f:
-        class: Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag
-        factory: ['@session', 'getBag']
-        arguments: ['gateway.service.u2f']
-
-    gateway.session.u2f.namespaced_attribute_bag:
-        public: false
-        class: Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag
-        arguments:
-            - '__gateway.service.u2f__'
-            - '/'
-        calls:
-            - [setName, ['gateway.service.u2f']]
-
     # Logging
     gateway.authentication_logger:
         class: Surfnet\StepupGateway\GatewayBundle\Monolog\Logger\AuthenticationLogger

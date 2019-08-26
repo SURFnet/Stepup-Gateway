@@ -155,11 +155,6 @@
         <target>SMS</target>
         <jms:reference-file line="23">/Resources/views/translations.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="72a21f0cbb338b0b94a2e55e9d1f8e48baf34eaa" resname="gateway.second_factor.search.type.u2f">
-        <source>gateway.second_factor.search.type.u2f</source>
-        <target>U2F</target>
-        <jms:reference-file line="25">/Resources/views/translations.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="31046bc21aed40f037eebc23b0487eadb196b931" resname="gateway.second_factor.search.type.yubikey">
         <source>gateway.second_factor.search.type.yubikey</source>
         <target>Yubikey</target>
@@ -206,26 +201,6 @@
         <target>Log in with SMS</target>
         <jms:reference-file line="3">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/SecondFactor/verifySmsSecondFactorChallenge.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="d0af79ae0b3f333a17355d24f9fd8cea1311dc48" resname="gateway.second_factor.u2f.button.retry">
-        <source>gateway.second_factor.u2f.button.retry</source>
-        <target>Retry</target>
-        <jms:reference-file line="18">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/SecondFactor/initiateU2fAuthentication.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="847f4fe9ebff36182e92bf5cfdb58ee68a3bbdba" resname="gateway.second_factor.u2f.text.activate_u2f_device">
-        <source>gateway.second_factor.u2f.text.activate_u2f_device</source>
-        <target>Activate the U2F device. This is usually performed using a button.</target>
-        <jms:reference-file line="10">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/SecondFactor/initiateU2fAuthentication.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d6c16ec06be9cc6266d1f8dd31086bdfa9fe4331" resname="gateway.second_factor.u2f.text.ensure_device_connected_to_pc">
-        <source>gateway.second_factor.u2f.text.ensure_device_connected_to_pc</source>
-        <target>Ensure your U2F device is linked to your computer.</target>
-        <jms:reference-file line="9">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/SecondFactor/initiateU2fAuthentication.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="51f9749bdf254a6d5e6f7370c0b042d813f9f9f1" resname="gateway.second_factor.u2f.title.authenticate">
-        <source>gateway.second_factor.u2f.title.authenticate</source>
-        <target>Authenticate with your U2F device</target>
-        <jms:reference-file line="3">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/SecondFactor/initiateU2fAuthentication.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="be12899784c0176e20b93e0030a2144365add26d" resname="gateway.second_factor.yubikey.text.connect_yubikey_to_pc">
         <source>gateway.second_factor.yubikey.text.connect_yubikey_to_pc</source>
         <target>Connect your YubiKey to the USB-port of your computer.</target>
@@ -255,21 +230,6 @@
         <source>gateway.submit.click_to_go_back_to_sp</source>
         <target>Click to go back.</target>
         <jms:reference-file line="15">/../src/Surfnet/StepupGateway/GatewayBundle/Resources/views/Gateway/unprocessableResponse.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="9b27b207d4333411d2b69ba0b7827de90c8c1d16" resname="gateway.u2f.alert.device_reported_an_error">
-        <source>gateway.u2f.alert.device_reported_an_error</source>
-        <target>The U2F device reported an error. Try again or visit your IT helpdesk.</target>
-        <jms:reference-file line="17">/Resources/views/translations.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="48b1aeae580249687d55b44e22b613188803acdf" resname="gateway.u2f.alert.error">
-        <source>gateway.u2f.alert.error</source>
-        <target>The authentication using the U2F device failed. Try again or visit your IT helpdesk.</target>
-        <jms:reference-file line="16">/Resources/views/translations.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="b5ef4b347f1b6489a162ecf06fd0c6a0acc1ac0b" resname="gateway.u2f.alert.unknown_registration">
-        <source>gateway.u2f.alert.unknown_registration</source>
-        <target>The U2F device you used is not known. You must re-register your device.</target>
-        <jms:reference-file line="15">/Resources/views/translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a08764057e3607049e3495943676b29f7baefba9" resname="locale.en_GB">
         <source>locale.en_GB</source>

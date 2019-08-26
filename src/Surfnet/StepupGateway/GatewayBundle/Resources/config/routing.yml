@@ -43,21 +43,6 @@ gateway_verify_second_factor_gssf:
     methods:  [GET]
     defaults: { _controller: SurfnetStepupGatewayGatewayBundle:SecondFactor:verifyGssf }
 
-gateway_verify_second_factor_u2f:
-    path:     /verify-second-factor/u2f/authenticate
-    methods:  [GET]
-    defaults: { _controller: SurfnetStepupGatewayGatewayBundle:SecondFactor:initiateU2fAuthentication }
-
-gateway_verify_second_factor_u2f_verify_authentication:
-    path:     /verify-second-factor/u2f/authenticate
-    methods:  [POST]
-    defaults: { _controller: SurfnetStepupGatewayGatewayBundle:SecondFactor:verifyU2fAuthentication }
-
-gateway_verify_second_factor_u2f_cancel_authentication:
-    path:     /verify-second-factor/u2f/cancel
-    methods:  [POST]
-    defaults: { _controller: SurfnetStepupGatewayGatewayBundle:SecondFactor:cancelAuthentication }
-
 gateway_verify_second_factor_choose_second_factor:
     path:     /choose-second-factor
     methods:  [GET, POST]
