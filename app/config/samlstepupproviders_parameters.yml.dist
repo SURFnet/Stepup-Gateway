@@ -77,3 +77,55 @@ parameters:
     gssp_biometric_title:
         en_GB: Biometric
         nl_NL: Biometrisch
+        
+    # Whether this GSSP endpoint is enabled (true) or not (false)
+    gssp_demo_gssp_enabled: true
+
+    # Biometric SP Proxy for authenticating with the real (i.e. external) demo_gssp IdP
+    gssp_demo_gssp_sp_publickey: '/full/path/to/the/gateway-as-sp/public-key-file.cer'
+    gssp_demo_gssp_sp_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Certificate and private key of the demo SAML IdP Proxy for use by RA and SS
+    gssp_demo_gssp_idp_publickey: '/full/path/to/the/gateway-as-idp/public-key-file.cer'
+    gssp_demo_gssp_idp_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Metadata signing cert and key for demo SP/IdP proxy
+    gssp_demo_gssp_metadata_publickey: '/full/path/to/the/gateway-metadata/public-key-file.cer'
+    gssp_demo_gssp_metadata_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Real (i.e. external) Demo GSSP IdP
+    gssp_demo_gssp_remote_entity_id: 'https://actual-gssp.entity-id.tld'
+    gssp_demo_gssp_remote_sso_url: 'https://actual-gssp.entity-id.tld/single-sign-on/url'
+    gssp_demo_gssp_remote_certificate: 'The contents of the certificate published by the gssp, excluding PEM headers'
+
+    # The logo used for demo_gssp, shown in the choose second factor screen (WAYG)
+    gssp_demo_gssp_logo: '/full/path/to/bio_logo.png'
+    gssp_demo_gssp_title:
+        en_GB: Demo gssp
+        nl_NL: Demo gssp
+        
+# Whether this GSSP endpoint is enabled (true) or not (false)
+    gssp_demo_gssp_2_enabled: true
+
+    # Biometric SP Proxy for authenticating with the real (i.e. external) demo_gssp IdP
+    gssp_demo_gssp_2_sp_publickey: '/full/path/to/the/gateway-as-sp/public-key-file.cer'
+    gssp_demo_gssp_2_sp_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Certificate and private key of the demo SAML IdP Proxy for use by RA and SS
+    gssp_demo_gssp_2_idp_publickey: '/full/path/to/the/gateway-as-idp/public-key-file.cer'
+    gssp_demo_gssp_2_idp_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Metadata signing cert and key for demo SP/IdP proxy
+    gssp_demo_gssp_2_metadata_publickey: '/full/path/to/the/gateway-metadata/public-key-file.cer'
+    gssp_demo_gssp_2_metadata_privatekey: '/full/path/to/the/gateway-as-sp/private-key-file.pem'
+
+    # Real (i.e. external) Demo GSSP IdP
+    gssp_demo_gssp_2_remote_entity_id: 'https://actual-gssp.entity-id.tld'
+    gssp_demo_gssp_2_remote_sso_url: 'https://actual-gssp.entity-id.tld/single-sign-on/url'
+    gssp_demo_gssp_2_remote_certificate: 'The contents of the certificate published by the gssp, excluding PEM headers'
+
+    # The logo used for demo_gssp, shown in the choose second factor screen (WAYG)
+    gssp_demo_gssp_2_logo: '/full/path/to/bio_logo.png'
+    gssp_demo_gssp_2_title:
+        en_GB: Demo gssp
+        nl_NL: Demo gssp
